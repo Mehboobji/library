@@ -1,0 +1,67 @@
+/*Creating Library database*/
+CREATE DATABASE library;
+USE library;
+
+/*Creating book table*/
+CREATE TABLE books (
+    id INT PRIMARY KEY,
+    title VARCHAR(40),
+    author_name VARCHAR(40),
+    published_year INT,
+    publisher VARCHAR(50)
+);
+
+/*Creating student table*/
+CREATE TABLE student (
+	id INT PRIMARY KEY,
+    name VARCHAR(40),
+    class INT,
+    mobile BIGINT,
+    email VARCHAR(50)
+    );
+
+/*Creating Staff Table*/
+CREATE TABLE staff (
+	id INT PRIMARY KEY,
+    name VARCHAR(40)
+    );
+
+/*Creating Loan table*/
+CREATE TABLE loan (
+	id INT PRIMARY KEY,
+    student_id INT,
+    book_id INT,
+    issued_by INT,
+    issue_date DATE,
+    due_date DATE DEFAULT (issue_date+14),
+    return_date DATE,
+    FOREIGN KEY (student_id) REFERENCES student(id),
+    FOREIGN KEY (book_id) REFERENCES books(id),
+    FOREIGN KEY (issued_by) REFERENCES staff(id)
+    );
+
+/*Inserting Values*/
+INSERT INTO BOOKS VALUES (1,"SCIENCE","RANDOM",2017,"NCERT"),(2,"MATH","RD",2015,"RD SHARMA");
+INSERT INTO student VALUES
+	(1,"Mr. A",11,9876543210,"mr.a@gmail.com"),
+    (2,"Ms B",12,8887965410,"ms.b@gmail.com");
+    
+INSERT INTO staff VALUES
+	(1,"Prof. M"),(2,"Prof. N");
+    
+INSERT INTO loan VALUES
+	(1,1,1,2,"2024-07-18","2024-07-31","2024-07-27");
+    
+INSERT INTO loan VALUES
+	(2,2,1,2,"2024-07-05",null,"2024-07-31");
+    
+/* Updating values*/    
+SET sql_safe_updates=0;
+UPDATE loan
+	SET due_date="2024-07-19" WHERE due_date IS NULL;
+    
+/*Display tables*/
+SELECT * FROM loan;
+SELECT * FROM books;
+SELECT * FROM student;
+SELECT * FROM staff;
